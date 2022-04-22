@@ -1,0 +1,84 @@
+
+
+
+CREATE TABLE `alumno` (
+	`IdAlumno` INT(11) NOT NULL AUTO_INCREMENT,
+	`Clave` INT(11) NOT NULL,
+	`Nombre` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`Apellido` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`Correo` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`IdGrado` INT(11) NOT NULL,
+	`IdSeccion` INT(11) NOT NULL,
+	PRIMARY KEY (`IdAlumno`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=101
+;
+
+
+
+CREATE TABLE `grado` (
+	`IdGrado` INT(11) NOT NULL AUTO_INCREMENT,
+	`Grado` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`IdGrado`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=102
+;
+
+
+
+CREATE TABLE `seccion` (
+	`IdSeccion` INT(11) NOT NULL AUTO_INCREMENT,
+	`Seccion` CHAR(1) NOT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`IdSeccion`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=7
+;
+
+
+
+CREATE TABLE `asignacion` (
+	`IdAsignacion` INT(11) NOT NULL AUTO_INCREMENT,
+	`IdAlumno` INT(11) NOT NULL,
+	`Clave` INT(11) NOT NULL,
+	`IdGrado` INT(11) NOT NULL,
+	`IdSeccion` INT(11) NOT NULL,
+	PRIMARY KEY (`IdAsignacion`) USING BTREE,
+	INDEX `FK_asignacion_grado` (`IdGrado`) USING BTREE,
+	INDEX `FK_asignacion_seccion` (`IdSeccion`) USING BTREE,
+	INDEX `FK_asignacion_alumno` (`IdAlumno`) USING BTREE,
+	CONSTRAINT `FK_asignacion_alumno` FOREIGN KEY (`IdAlumno`) REFERENCES `proyecto2`.`alumno` (`IdAlumno`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `FK_asignacion_grado` FOREIGN KEY (`IdGrado`) REFERENCES `proyecto2`.`grado` (`IdGrado`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `FK_asignacion_seccion` FOREIGN KEY (`IdSeccion`) REFERENCES `proyecto2`.`seccion` (`IdSeccion`) ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=107
+;
+
+
+
+CREATE TABLE `notas` (
+	`IdNotas` INT(11) NOT NULL AUTO_INCREMENT,
+	`IdAlumno` INT(11) NOT NULL,
+	`Clave` INT(11) NOT NULL,
+	`IdGrado` INT(11) NOT NULL,
+	`IdSeccion` INT(11) NOT NULL,
+	`Bimestre1` INT(11) UNSIGNED NOT NULL,
+	`Bimestre2` INT(11) UNSIGNED NOT NULL,
+	`Bimestre3` INT(11) UNSIGNED NOT NULL,
+	`Bimestre4` INT(11) UNSIGNED NOT NULL,
+	`Promedio` INT(11) NOT NULL,
+	PRIMARY KEY (`IdNotas`) USING BTREE,
+	INDEX `FK_notas_alumno` (`IdAlumno`) USING BTREE,
+	CONSTRAINT `FK_notas_alumno` FOREIGN KEY (`IdAlumno`) REFERENCES `proyecto2`.`alumno` (`IdAlumno`) ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=53
+;
